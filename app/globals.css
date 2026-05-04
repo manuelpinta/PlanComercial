@@ -1,0 +1,6 @@
+/* Estilos mínimos para el shell Next.js; la UI vive en public/plan.html */
+html,
+body {
+  margin: 0;
+  height: 100%;
+}
