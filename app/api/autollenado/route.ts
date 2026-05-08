@@ -1,6 +1,7 @@
 import type { RowDataPacket } from "mysql2";
 import { NextResponse } from "next/server";
 import { getPool } from "@/lib/db";
+import { requireCommercialSession } from "@/lib/require-commercial-session";
 
 function safeDbName(value: string | undefined, fallback: string) {
   const v = (value || fallback).trim();
@@ -29,6 +30,9 @@ type DetalleRow = {
 };
 
 export async function GET(req: Request) {
+  const authError = await requireCommercialSession();
+  if (authError) return authError;
+
   const pool = getPool();
   if (!pool) {
     return NextResponse.json({ error: "MySQL no configurado" }, { status: 503 });

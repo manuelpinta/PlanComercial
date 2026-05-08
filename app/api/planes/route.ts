@@ -2,6 +2,7 @@ import type { RowDataPacket } from "mysql2";
 import { NextResponse } from "next/server";
 import { getPool } from "@/lib/db";
 import { planesComercialesFqn } from "@/lib/planesTable";
+import { requireCommercialSession } from "@/lib/require-commercial-session";
 
 type PlanPayload = Record<string, unknown> & {
   id: string;
@@ -54,6 +55,9 @@ function buildAutofillSnapshot(plan: PlanPayload) {
 }
 
 export async function GET() {
+  const authError = await requireCommercialSession();
+  if (authError) return authError;
+
   const pool = getPool();
   if (!pool) {
     return NextResponse.json(
@@ -86,6 +90,9 @@ export async function GET() {
 }
 
 export async function POST(req: Request) {
+  const authError = await requireCommercialSession();
+  if (authError) return authError;
+
   const pool = getPool();
   if (!pool) {
     return NextResponse.json({ error: "MySQL no configurado" }, { status: 503 });
@@ -128,6 +135,9 @@ export async function POST(req: Request) {
 }
 
 export async function PUT(req: Request) {
+  const authError = await requireCommercialSession();
+  if (authError) return authError;
+
   const pool = getPool();
   if (!pool) {
     return NextResponse.json({ error: "MySQL no configurado" }, { status: 503 });
@@ -175,6 +185,9 @@ export async function PUT(req: Request) {
 }
 
 export async function DELETE() {
+  const authError = await requireCommercialSession();
+  if (authError) return authError;
+
   const pool = getPool();
   if (!pool) {
     return NextResponse.json({ error: "MySQL no configurado" }, { status: 503 });

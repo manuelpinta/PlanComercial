@@ -2,6 +2,7 @@ import type { ResultSetHeader } from "mysql2";
 import { NextResponse } from "next/server";
 import { getPool } from "@/lib/db";
 import { planesComercialesFqn } from "@/lib/planesTable";
+import { requireCommercialSession } from "@/lib/require-commercial-session";
 
 type PlanPayload = Record<string, unknown> & {
   id: string;
@@ -57,6 +58,9 @@ export async function PATCH(
   req: Request,
   { params }: { params: Promise<{ planId: string }> }
 ) {
+  const authError = await requireCommercialSession();
+  if (authError) return authError;
+
   const pool = getPool();
   if (!pool) {
     return NextResponse.json({ error: "MySQL no configurado" }, { status: 503 });

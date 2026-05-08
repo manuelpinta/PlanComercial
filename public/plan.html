@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>Plan de Acciones Comerciales · Pinta</title>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,500;0,600;0,700;0,800;1,700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
@@ -229,6 +229,13 @@
             padding: 12px 15px;
         }
 
+        .calc-table-scroll {
+            width: 100%;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            border-radius: 10px;
+        }
+
         .calc-table td:first-child {
             font-weight: 600;
             color: var(--dark);
@@ -284,6 +291,12 @@
             gap: 15px;
             margin-bottom: 12px;
             align-items: center;
+        }
+
+        .pilar-row > input,
+        .pilar-row > select {
+            min-width: 0;
+            width: 100%;
         }
 
         .pilar-label {
@@ -510,27 +523,141 @@
         }
 
         @media (max-width: 768px) {
+            .app-header-inner {
+                padding-left: 16px;
+                padding-right: 16px;
+            }
+            .app-main {
+                padding-left: 16px;
+                padding-right: 16px;
+                padding-bottom: max(48px, env(safe-area-inset-bottom, 0px));
+            }
             .app-header-identity h1 {
                 font-size: 1.45rem;
             }
+            .app-header-sub {
+                font-size: 0.88rem;
+                line-height: 1.45;
+            }
             .app-header-top {
                 flex-direction: column;
-                align-items: flex-start;
+                align-items: stretch;
+                gap: 14px;
+                padding-top: 18px;
+                padding-bottom: 16px;
             }
             .app-header-nav {
                 width: 100%;
-                justify-content: flex-start;
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 6px;
+                padding: 6px;
+            }
+            .app-nav-btn {
+                min-height: 46px;
+                padding: 12px 14px;
+                font-size: 0.95rem;
             }
             .content {
-                padding: 20px;
+                padding: 18px 14px;
+            }
+            .section-title {
+                font-size: 1.35rem;
+                margin-bottom: 16px;
+                padding-bottom: 10px;
+            }
+            .section {
+                margin-bottom: 28px;
             }
             .form-grid {
                 grid-template-columns: 1fr;
             }
+            .pilares-compact {
+                padding: 18px 14px;
+            }
+            .pilares-compact h3 {
+                font-size: 1.15rem;
+                margin-bottom: 16px;
+            }
+            .proyeccion-card {
+                padding: 20px 14px;
+                margin-left: 0;
+                margin-right: 0;
+            }
+            .calc-table {
+                min-width: 520px;
+            }
+            .history-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 8px;
+            }
+            .filtros-grid {
+                grid-template-columns: 1fr;
+            }
+            .filtros-actions {
+                justify-content: stretch;
+            }
+            .filtros-actions .btn {
+                flex: 1;
+                justify-content: center;
+            }
+            .action-buttons {
+                flex-direction: column;
+            }
+            .action-buttons .btn {
+                width: 100%;
+                justify-content: center;
+            }
+            .action-header {
+                flex-wrap: wrap;
+                align-items: flex-start;
+            }
+            .history-card {
+                padding: 18px 14px;
+            }
+            .filtros-container {
+                padding: 14px;
+            }
+            .btn-ejec {
+                min-height: 40px;
+                padding: 10px 14px;
+            }
+            .detalle-result-grid {
+                grid-template-columns: 1fr;
+            }
+            .pilar-row {
+                grid-template-columns: 1fr;
+                gap: 10px;
+                align-items: stretch;
+                padding-bottom: 14px;
+                margin-bottom: 14px;
+                border-bottom: 1px solid rgba(91, 33, 182, 0.14);
+            }
+            .pilar-row:last-child {
+                border-bottom: none;
+                margin-bottom: 0;
+                padding-bottom: 0;
+            }
+            .pilar-label {
+                font-size: 0.98rem;
+                line-height: 1.35;
+            }
+            .form-resultado {
+                grid-template-columns: 1fr !important;
+            }
+            input,
+            select,
+            textarea {
+                font-size: 16px;
+            }
         }
+
     .plan-detalle{background:#F8F9FA;border:2px solid #3B82F6;border-radius:10px;padding:20px;margin-top:15px;display:none;}
 .plan-detalle.show{display:block;}
 .form-resultado{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:15px;margin:15px 0;}
+.detalle-result-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;}
+.detalle-result-grid input,.detalle-result-grid select{min-width:0;width:100%;}
 .btn-ejec{padding:8px 12px;border:2px solid #ddd;border-radius:6px;background:white;cursor:pointer;font-size:0.85em;font-weight:600;}
 .btn-ejec.activo{font-weight:700;}
 
@@ -732,6 +859,7 @@
                 <!-- PROYECCIÓN DE CIERRE -->
                 <div class="proyeccion-card">
                     <h3>Proyección de cierre</h3>
+                    <div class="calc-table-scroll">
                     <table class="calc-table">
                         <tr>
                             <td>Días operados</td>
@@ -796,6 +924,7 @@
                             <td id="showCumplimientoFinal">0%</td>
                         </tr>
                     </table>
+                    </div>
                 </div>
 
                 <!-- BOTONES FINALES -->
@@ -2322,7 +2451,7 @@
                 
                 html += '<div style="background:#F8F9FA;padding:15px;margin:10px 0;border-radius:8px;border-left:4px solid #8B5CF6;">';
                 html += '<h4>' + pilaresNombres[i] + '</h4>';
-                html += '<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;">';
+                html += '<div class="detalle-result-grid">';
                 html += '<div><label>Proyectado</label><input type="number" value="' + p.impacto + '" readonly></div>';
                 html += '<div><label>Real ($)</label><input type="number" class="accion-real" data-tipo="pilar" data-index="' + i + '" value="' + (resG ? resG.real : '') + '"></div>';
                 html += '<div><label>¿Ejecutó?</label><div style="display:flex;gap:5px;flex-wrap:wrap;">';
@@ -2342,7 +2471,7 @@
                     
                     html += '<div style="background:#FFF4E6;padding:15px;margin:10px 0;border-radius:8px;border-left:4px solid #FF3366;">';
                     html += '<h4>Acción ' + (i+1) + ': ' + a.que.substring(0,40) + '</h4>';
-                    html += '<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;">';
+                    html += '<div class="detalle-result-grid">';
                     html += '<div><label>Proyectado</label><input type="number" value="' + a.impacto + '" readonly></div>';
                     html += '<div><label>Real ($)</label><input type="number" class="accion-real" data-tipo="accion" data-index="' + i + '" value="' + (resG ? resG.real : '') + '"></div>';
                     html += '<div><label>¿Ejecutó?</label><div style="display:flex;gap:5px;flex-wrap:wrap;">';
